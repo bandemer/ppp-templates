@@ -1,0 +1,14 @@
+<ul class="episodelist">
+{% for episode in podcast.episodes %}
+  <li>
+    <img src="{{ episode.image({fallback: true}).url }}" alt="{{ episode.title }}" >
+    <h2><a href="{{ episode.url }}">{{ episode.title }}</a></h2>
+    <p>
+        <span class="fa fa-calendar"></span><span>{{ episode.publicationDate }}</span> 
+        <span class="fa fa-clock-o"></span><span>{{ episode.duration }}</span>
+    </p>
+    <p>{{ episode.subtitle }}</p>
+  </li>
+{% endfor %}
+</ul>
+

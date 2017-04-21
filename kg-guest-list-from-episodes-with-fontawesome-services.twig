@@ -1,0 +1,98 @@
+{% set ctb = [] %}
+{% set cid = 0 %}
+<div id="guests">
+    <input class="search" placeholder="Suchen" />
+    <button class="sort asc" data-sort="cid">Chronologisch sortieren</button>
+    <button class="sort" data-sort="name">Alphabetisch sortieren</button>
+    <ul class="guestlist list">
+    {% for episode in podcast.episodes %}
+        {% for contributor in episode.contributors %}
+            {% if contributor.name not in ctb %}
+                {% set ctb = ctb|merge([contributor.name]) %}
+                {% set cid = cid + 1 %}
+                <li>
+                    <div class="guestavatar">
+                        {% if contributor.image != '' %}
+                            {{ contributor.image.html({ width: 60, alt: "Avatar " ~ contributor.name }) }}
+                        {% endif %}
+                    </div>
+                    <div class="guestinfos">
+                        <h2>
+                            <span class="cid">{{ cid }}</span>
+                            <span class="name">{{ contributor.name  }}</span>
+                            <span>
+                                {% for service in contributor.services %}
+                                    {% if service.title == 'Twitter' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-twitter-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Website' %}
+                                        <a target="_blank" title="{{ contributor.name  }} {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-external-link-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'about.me' %}
+                                        <a target="_blank" title="{{ contributor.name  }} {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-external-link-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Flattr' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-external-link-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Patreon' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-external-link-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Instagram' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-instagram"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Facebook' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-facebook-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'flickr' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-flickr-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Google+' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-google-plus-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Linkedin' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-linkedin-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'YouTube (User)' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-youtube-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Pinterest' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-pinterest-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Xing' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-xing-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Soundcloud' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-soundcloud"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'GitHub' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-github-square"> </i></a> 
+                                    {% endif %}
+                                    {% if service.title == 'Twitch' %}
+                                        <a target="_blank" title="{{ contributor.name  }} auf {{ service.title }}" href="{{ service.profileUrl }}"><i class="fa fa-twitch"> </i></a> 
+                                    {% endif %}
+                                    
+                                {% endfor %}
+                            </span>
+                        </h2>
+                        {%if contributor.nickname %}
+                        <p>
+                            {{ contributor.nickname }}
+                        </p>
+                        {% endif %}
+                        <p>{{ contributor.name  }} war in folgenden Episoden zu Gast:
+                            {% for episode in contributor.episodes %}
+                                <a href="{{ episode.url }}">{{ episode.title }}</a> 
+                            {% endfor %}
+                        </p>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </ul>
+</div>
+<script src="http://listjs.com/no-cdn/list.js"></script>
+<script type="text/javascript">
+var options = {   valueNames: [ 'cid', 'name' ] };
+var userList = new List('guests', options);
+</script>

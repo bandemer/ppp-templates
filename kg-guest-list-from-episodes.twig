@@ -1,0 +1,52 @@
+{% set ctb = [] %}
+{% set cid = 0 %}
+<div id="guests">
+    <input class="search" placeholder="Suchen" />
+    <button class="sort asc" data-sort="cid">Chronologisch sortieren</button>
+    <button class="sort" data-sort="name">Alphabetisch sortieren</button>
+    <ul class="guestlist list">
+    {% for episode in podcast.episodes %}
+        {% for contributor in episode.contributors %}
+            {% if contributor.name not in ctb %}
+                {% set ctb = ctb|merge([contributor.name]) %}
+                {% set cid = cid + 1 %}
+                <li>
+                    <div class="guestavatar">
+                        {% if contributor.image != '' %}
+                            {{ contributor.image.html({ width: 60, alt: "Avatar " ~ contributor.name }) }}
+                        {% endif %}
+                    </div>
+                    <div class="guestinfos">
+                        <h2>
+                            <span class="cid">{{ cid }}</span>
+                            <span class="name">{{ contributor.name  }}</span>
+                            <span>
+                                {% for service in contributor.services %}
+                                    <a target="_blank" title="{{ service.title }}" href="{{ service.profileUrl }}">
+                                    {{ service.image.html({width: 32, class: "podlove-contributor-button", alt: service.title ~ " Icon"}) }}
+                                    </a> 
+                                {% endfor %}
+                            </span>
+                        </h2>
+                        {%if contributor.nickname %}
+                        <p>
+                            {{ contributor.nickname }}
+                        </p>
+                        {% endif %}
+                        <p>{{ contributor.name  }} war in folgenden Episoden zu Gast:
+                            {% for episode in contributor.episodes %}
+                                <a href="{{ episode.url }}">{{ episode.title }}</a> 
+                            {% endfor %}
+                        </p>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </ul>
+</div>
+<script src="http://listjs.com/no-cdn/list.js"></script>
+<script type="text/javascript">
+var options = {   valueNames: [ 'cid', 'name' ] };
+var userList = new List('guests', options);
+</script>

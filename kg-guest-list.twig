@@ -1,0 +1,29 @@
+<ul class="guestlist">
+{% for contributor in podcast.contributors %}
+    <li>
+        <div class="guestavatar">
+            {{ contributor.image.html({ width: 60, alt: contributor.name }) }}
+        </div>
+        <h2>{{ contributor.name  }}
+            <span>
+                {% for service in contributor.services %}
+                    <a target="_blank" title="{{ service.title }}" href="{{ service.profileUrl }}">
+    				{{ service.image.html({width: 32, class: "podlove-contributor-button", alt: service.title ~ " Icon"}) }}
+    				</a> 
+                {% endfor %}
+            </span>
+        </h2>
+        {%if contributor.nickname %}
+        <p>
+            {{ contributor.nickname }}
+        </p>
+        {% endif %}
+        <p>{{ contributor.name  }} war in folgenden Episoden zu Gast:
+            {% for episode in contributor.episodes %}
+                <a href="{{ episode.url }}">{{ episode.title }}</a> 
+            {% endfor %}
+        </p>
+    </li>
+{% endfor %}
+</ul>
+
